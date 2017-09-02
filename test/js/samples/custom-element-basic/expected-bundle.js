@@ -162,23 +162,31 @@ var proto = {
 };
 
 function create_main_fragment ( state, component ) {
-	var div, text;
+	var h1, text, text_1, text_2;
 
 	return {
 		create: function () {
-			div = createElement( 'div' );
-			text = createText( "I am shadow DOM" );
+			h1 = createElement( 'h1' );
+			text = createText( "Hello " );
+			text_1 = createText( state.name );
+			text_2 = createText( "!" );
 		},
 
 		mount: function ( target, anchor ) {
-			insertNode( div, target, anchor );
-			appendNode( text, div );
+			insertNode( h1, target, anchor );
+			appendNode( text, h1 );
+			appendNode( text_1, h1 );
+			appendNode( text_2, h1 );
 		},
 
-		update: noop,
+		update: function ( changed, state ) {
+			if ( changed.name ) {
+				text_1.data = state.name;
+			}
+		},
 
 		unmount: function () {
-			detachNode( div );
+			detachNode( h1 );
 		},
 
 		destroy: noop
@@ -208,6 +216,22 @@ class SvelteComponent extends HTMLElement {
 			this._fragment.create();
 			this._fragment.mount( this.attachShadow({ mode: 'open' }), null );
 		}
+	}
+
+	static get observedAttributes() {
+		return ["name"];
+	}
+
+	get name() {
+		return this.get('name');
+	}
+
+	set name(value) {
+		this.set({ name: value });
+	}
+
+	attributeChangedCallback ( attr, oldValue, newValue ) {
+		this.set({ [attr]: newValue });
 	}
 }
 
