@@ -1,5 +1,5 @@
 [{
-	"message": "A11y: Avoid using the accessKey attribute",
+	"message": "A11y: Avoid using accesskey",
 	"loc": {
 		"line": 1,
 		"column": 5
