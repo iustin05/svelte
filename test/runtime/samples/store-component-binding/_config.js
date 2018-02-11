@@ -16,6 +16,11 @@ export default {
 		const input = target.querySelector('input');
 		const event = new window.Event('input');
 
+		const changeRecord = [];
+		store.onchange((state, changes) => {
+			changeRecord.push({ state, changes });
+		});
+
 		input.value = 'everybody';
 		input.dispatchEvent(event);
 
@@ -24,5 +29,12 @@ export default {
 			<h1>Hello everybody!</h1>
 			<input>
 		`);
+
+		assert.deepEqual(changeRecord, [
+			{
+				state: { name: 'everybody' },
+				changes: { name: true }
+			}
+		]);
 	}
 };
