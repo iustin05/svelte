@@ -1,7 +1,6 @@
 import deindent from '../../utils/deindent';
 import Node from './shared/Node';
 import ElseBlock from './ElseBlock';
-import { DomGenerator } from '../dom/index';
 import Block from '../dom/Block';
 import createDebuggingComment from '../../utils/createDebuggingComment';
 import Expression from './shared/Expression';

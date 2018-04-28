@@ -3,9 +3,9 @@ import Element from './Element';
 import getObject from '../../utils/getObject';
 import getTailSnippet from '../../utils/getTailSnippet';
 import flattenReference from '../../utils/flattenReference';
-import { DomGenerator } from '../dom/index';
 import Block from '../dom/Block';
 import Expression from './shared/Expression';
+import Compiler from '../../compile/Compiler';
 
 const readOnlyMediaAttributes = new Set([
 	'duration',
@@ -162,7 +162,7 @@ function getDomUpdater(
 	return `${node.var}.${binding.name} = ${snippet};`;
 }
 
-function getBindingGroup(compiler: DomGenerator, value: Node) {
+function getBindingGroup(compiler: Compiler, value: Node) {
 	const { parts } = flattenReference(value); // TODO handle cases involving computed member expressions
 	const keypath = parts.join('.');
 
@@ -179,7 +179,7 @@ function getBindingGroup(compiler: DomGenerator, value: Node) {
 
 function getEventHandler(
 	binding: Binding,
-	compiler: DomGenerator,
+	compiler: Compiler,
 	block: Block,
 	name: string,
 	snippet: string,
@@ -250,7 +250,7 @@ function getEventHandler(
 }
 
 function getValueFromDom(
-	compiler: DomGenerator,
+	compiler: Compiler,
 	node: Element,
 	binding: Node
 ) {

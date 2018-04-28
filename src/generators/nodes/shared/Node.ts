@@ -1,12 +1,11 @@
-import { DomGenerator } from '../../dom/index';
-import Generator from './../../Generator';
+import Compiler from './../../Compiler';
 import Block from '../../dom/Block';
 import { trimStart, trimEnd } from '../../../utils/trim';
 
 export default class Node {
 	readonly start: number;
 	readonly end: number;
-	readonly compiler: Generator;
+	readonly compiler: Compiler;
 	readonly parent: Node;
 	readonly type: string;
 
@@ -16,7 +15,7 @@ export default class Node {
 	canUseInnerHTML: boolean;
 	var: string;
 
-	constructor(compiler: Generator, parent, scope, info: any) {
+	constructor(compiler: Compiler, parent, scope, info: any) {
 		this.start = info.start;
 		this.end = info.end;
 		this.type = info.type;

@@ -1,6 +1,5 @@
 import Node from './shared/Node';
-import { DomGenerator } from '../dom/index';
-import Generator from '../Generator';
+import Compiler from '../Compiler';
 import mapChildren from './shared/mapChildren';
 import Block from '../dom/Block';
 import TemplateScope from './shared/TemplateScope';
@@ -10,7 +9,7 @@ export default class Fragment extends Node {
 	children: Node[];
 	scope: TemplateScope;
 
-	constructor(compiler: Generator, info: any) {
+	constructor(compiler: Compiler, info: any) {
 		const scope = new TemplateScope();
 		super(compiler, null, scope, info);
 
@@ -20,7 +19,7 @@ export default class Fragment extends Node {
 
 	init() {
 		this.block = new Block({
-			generator: this.compiler,
+			compiler: this.compiler,
 			name: '@create_main_fragment',
 			key: null,
 
