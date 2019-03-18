@@ -1,7 +1,6 @@
 import { writable } from '../../../../store.js';
 
 export default {
-	show: 1,
 	props: {
 		count: writable(0)
 	},
