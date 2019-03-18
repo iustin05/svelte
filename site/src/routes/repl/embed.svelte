@@ -10,7 +10,7 @@
 
 <script>
 	import { onMount } from 'svelte';
-	import { process_example } from './_utils/process_example.js';
+	import { process_example } from '../../components/Repl/process_example.js';
 	import Repl from '../../components/Repl/index.svelte';
 
 	export let version, gist, example;
