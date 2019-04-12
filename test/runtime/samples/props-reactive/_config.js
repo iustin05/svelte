@@ -1,6 +1,4 @@
 export default {
-	show: 1,
-
 	props: {
 		a: 1,
 		b: 2,
