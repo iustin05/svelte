@@ -1,6 +1,6 @@
 [{
 	"code": "illegal-global",
-	"message": "The $ sign is an illegal variable name",
+	"message": "$ is an illegal variable name",
 	"pos": 10,
 	"start": {
 		"line": 2,
