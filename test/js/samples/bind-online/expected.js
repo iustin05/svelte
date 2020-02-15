@@ -10,23 +10,20 @@ import {
 } from "svelte/internal";
 
 function create_fragment(ctx) {
-	var dispose;
-
-	add_render_callback(ctx.onlinestatuschanged);
+	let dispose;
+	add_render_callback(/*onlinestatuschanged*/ ctx[1]);
 
 	return {
-		c() {
+		c: noop,
+		m(target, anchor) {
 			dispose = [
-				listen(window, "online", ctx.onlinestatuschanged),
-				listen(window, "offline", ctx.onlinestatuschanged)
+				listen(window, "online", /*onlinestatuschanged*/ ctx[1]),
+				listen(window, "offline", /*onlinestatuschanged*/ ctx[1])
 			];
 		},
-
-		m: noop,
 		p: noop,
 		i: noop,
 		o: noop,
-
 		d(detaching) {
 			run_all(dispose);
 		}
@@ -37,16 +34,16 @@ function instance($$self, $$props, $$invalidate) {
 	let online;
 
 	function onlinestatuschanged() {
-		online = navigator.onLine; $$invalidate('online', online);
+		$$invalidate(0, online = navigator.onLine);
 	}
 
-	return { online, onlinestatuschanged };
+	return [online, onlinestatuschanged];
 }
 
 class Component extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, []);
+		init(this, options, instance, create_fragment, safe_not_equal, {});
 	}
 }
 
