@@ -1,16 +1,13 @@
 // @ts-nocheck
 import {
-	EOF,
 	WhiteSpace,
 	Comment,
-	Delim,
 	Function,
 	Ident,
-	LeftParenthesis,
-	RightParenthesis,
-	LeftCurlyBracket,
-	Colon
+	LeftParenthesis
 } from 'css-tree/tokenizer';
+
+import { lookahead_is_range } from './lookahead_is_range';
 
 const CONTAINER_QUERY_KEYWORDS = new Set(['none', 'and', 'not', 'or']);
 
@@ -19,47 +16,12 @@ export const structure = {
 	name: 'Identifier',
 	children: [[
 		'Identifier',
-		'ContainerFeature',
-		'ContainerFeatureRange',
+		'QueryFeature',
+		'QueryFeatureRange',
 		'ContainerFeatureStyle',
 		'WhiteSpace'
 	]]
 };
-
-/**
- * Looks ahead to determine if query feature is a range query. This involves locating at least one delimiter and no
- * colon tokens.
- *
- * @returns {boolean} Is potential range query.
- */
-function lookahead_is_range() {
-	let type;
-	let offset = 0;
-
-	let count = 0;
-	let delim_found = false;
-	let no_colon = true;
-
-	// A range query has maximum 5 tokens when formatted as 'mf-range' /
-	// '<mf-value> <mf-lt> <mf-name> <mf-lt> <mf-value>'. So only look ahead maximum of 6 non-whitespace tokens.
-	do {
-		type = this.lookupNonWSType(offset++);
-		if (type !== WhiteSpace) {
-			count++;
-		}
-		if (type === Delim) {
-			delim_found = true;
-		}
-		if (type === Colon) {
-			no_colon = false;
-		}
-		if (type === LeftCurlyBracket || type === RightParenthesis) {
-			break;
-		}
-	} while (type !== EOF && count <= 6);
-
-	return delim_found && no_colon;
-}
 
 export function parse() {
 	const start = this.tokenStart;
@@ -98,7 +60,7 @@ export function parse() {
 
 				case LeftParenthesis:
 					// Lookahead to determine if range feature.
-					child = lookahead_is_range.call(this) ? this.ContainerFeatureRange() : this.ContainerFeature();
+					child = lookahead_is_range.call(this) ? this.QueryFeatureRange() : this.QueryFeature();
 					break;
 
 				default:
