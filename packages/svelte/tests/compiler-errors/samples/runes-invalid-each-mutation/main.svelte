@@ -3,5 +3,5 @@
 </script>
 
 {#each arr as value}
-			<button onclick={() => value += 1}>click</button>
+	<button onclick={() => value += 1}>click</button>
 {/each}
