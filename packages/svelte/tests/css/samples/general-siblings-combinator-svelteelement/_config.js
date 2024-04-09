@@ -2,12 +2,19 @@ import { test } from '../../test';
 
 export default test({
 	warnings: [
-		// TODO
-		// {
-		// 	code: 'css-unused-selector',
-		// 	message: 'Unused CSS selector ".a ~ .b"',
-		// 	start: { character: 111, column: 1, line: 10 },
-		// 	end: { character: 118, column: 8, line: 10 }
-		// },
+		{
+			code: 'css-unused-selector',
+			end: {
+				character: 496,
+				column: 10,
+				line: 26
+			},
+			message: 'Unused CSS selector ".x + .bar"',
+			start: {
+				character: 487,
+				column: 1,
+				line: 26
+			}
+		}
 	]
 });
